@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "emg-probe"
+version = "0.1.0"
+description = "Recording and test protocols for the Waveletech 8-channel EMG band"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.23", "scipy>=1.10", "matplotlib>=3.7", "pyserial>=3.5"]
+
+[project.scripts]
+emg-probe = "emgprobe.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
