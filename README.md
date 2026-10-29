@@ -18,11 +18,23 @@ instructions to the subject.
 
 Requires Python 3.9+. Developed on macOS. The GUI protocols (`view`, `gesture`, `effort`) also need a display.
 
+With [uv](https://docs.astral.sh/uv/) (recommended):
+
 ```bash
 git clone https://github.com/yknxh/emg-probe.git && cd emg-probe
+uv sync              # creates .venv and installs the exact versions in uv.lock
+uv run emg-probe     # list commands
+```
+
+Prefix every command with `uv run` (`uv run emg-probe map ...`). You can also `source .venv/bin/activate` once
+and call `emg-probe` directly. After editing dependencies in `pyproject.toml`, run `uv lock` and commit `uv.lock`.
+
+Without uv:
+
+```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e .
-emg-probe            # list commands
+emg-probe
 ```
 
 On-screen cues for the subject are in Korean. If they render as boxes in the GUIs, install a Korean font such as
@@ -42,7 +54,7 @@ AppleGothic or Noto Sans CJK KR.
 | `emg-probe effort --port P` | Rest / low / medium / higher effort, plus slow ramps | [gesture & effort](docs/gesture_effort.md) |
 | `emg-probe timing SESSION` | Per-band clock fit of a saved two-band session | [hardware](docs/hardware.md) |
 
-`emg-probe COMMAND -h` shows every option. `python -m emgprobe COMMAND` works without installing the script.
+`emg-probe COMMAND -h` shows every option. Commands below are written without `uv run`. Add it, or activate `.venv`.
 
 ### Bands and ports
 
@@ -122,7 +134,7 @@ phases with `Bands.set_phase` or `terminal.timed`. Then add a `main(argv)` and r
 ## Tests
 
 ```bash
-MPLBACKEND=Agg python -m unittest
+MPLBACKEND=Agg uv run python -m unittest      # or, in an activated venv: MPLBACKEND=Agg python -m unittest
 ```
 
 The tests run every protocol on simulated bands, about 2–3 minutes in all. They check file layout, protocol flow and
